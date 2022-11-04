@@ -14,25 +14,27 @@ Versión: 14 de septiembre de 2022
 
 ## Descripción de la práctica
 
-Esta entrega es una modificación de la [entrega P2P del módulo 4](https://github.com/ging-moocs/MOOC_html_mod4-MVC_cliente_entrega) (MVC películas) en la que se hace uso de la API de myjson (https://myjson.dit.upm.es/) para persistir la base de datos de películas. El resultado obtenido será el mismo que en la entrega del módulo 4, sólo que en lugar de almacenar la información de las películas utilizando la API de localStorage del navegador, se almacenará remotamente en el servidor de myjson y estará accesible a través de la API REST que proporciona este servicio.
+Esta entrega es una modificación de la [entrega P2P del módulo 4](https://github.com/ging-moocs/MOOC_html_mod4-MVC_cliente_entrega) (MVC películas) en la que se hace uso de un API REST de almacenamiento de objetos o datos en json (https://jsonstorage.net/) para persistir la base de datos de películas. El resultado obtenido será el mismo que en la entrega del módulo 4, sólo que en lugar de almacenar la información de las películas utilizando la API de localStorage del navegador, se almacenará remotamente en el servidor de jsonstorage.net y estará accesible a través de la API REST que proporciona este servicio.
 
 <p align="center">
   <img width="568" height="320" src="https://raw.githubusercontent.com/ging-moocs/MOOC_html_mod7-AJAX_entrega/master/files/enunciado.png">
 </p>
 
-En el código proporcionado sólo está implementada la funcionalidad de listar las películas existentes y editar película. El alumno debe implementar las funcionalidades restantes (crear, mostrar, eliminar y reiniciar), así como las funciones que permiten leer y actualizar la información de myjson (`getAPI` y ``updateAPI``).
+En el código proporcionado sólo está implementada la funcionalidad de listar las películas existentes y editar película. El alumno debe implementar las funcionalidades restantes (crear, mostrar, eliminar y reiniciar), así como las funciones que permiten leer y actualizar la información de jsonstorage.net (`getAPI` y ``updateAPI``).
 
 <br/>
 
-## Acerca de myjson
+## Acerca de jsonstorage.net
 
-El servicio myjson permite almacenar información en formato JSON para poder acceder a ella desde cualquier cliente HTTP. Las acciones que pueden realizarse sobre los endpoints disponibles son las siguientes:
+El servicio jsonstorage.net permite almacenar información en formato JSON para poder acceder a ella desde cualquier cliente HTTP. Para poder hacer estas acciones hay que obtener un api_key (antes era abierto pero se llenaba de spam y hay que hacer un proceso de registro de un minuto con una cuenta de gmail). Para esto acceder a la URL https://app.jsonstorage.net/ y ahí acceder con una cuenta de google, una vez registrado hacer click en "Api Keys" y crear una (no marquéis la opción "Read only" pues haremos PUT y editaremos lo creado). Esa api key es un string con un formato similar al siguiente: 972ccb5e-8e18-4162-bee9-ffcd938ba9rr 
+Una vez obtenido habrá que introducirlo en las queries Ajax, en la siguiente tabla llamaremos a este string <YOURAPIKEY> y deberéis sustuirlo en las peticiones por vuestro string personal.
+Las acciones que pueden realizarse sobre los endpoints disponibles son las siguientes:
 
 | Método HTTP | URL                                | Descripción                                                                                                                                                                                          |
 |-------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| POST        | https://myjson.dit.upm.es/api/bins       | Crea un almacén nuevo para nuestra aplicación. Devuelve la URL que debemos utilizar como endpoint para guardar la información de nuestra aplicación. Por ejemplo: https://myjson.dit.upm.es/api/bins/xxxxx |
-| GET         | https://myjson.dit.upm.es/api/bins/xxxxx (la creada con el método POST) | Lee la información guardada en el endpoint creado                                                                                                                                                    |
-| PUT         | https://myjson.dit.upm.es/api/bins/xxxxx (la creada con el método POST) | Sobrescribe la información guardada en el endpoint creado con el JSON que se le pasa en el campo "body" de la petición HTTP                                                                                             |
+| POST        | https://jsonstorage.net/v1/json?apiKey=<YOURAPIKEY>       | Crea un almacén nuevo para nuestra aplicación. Devuelve la URL que debemos utilizar como endpoint para guardar la información de nuestra aplicación. Por ejemplo la URL que vemos en el GET más abajo es lo que devuelve el método POST. Un ejemplo de esta URL con el API KEY arriba indicado sería: https://jsonstorage.net/v1/json?apiKey=972ccb5e-8e18-4162-bee9-ffcd938ba9rr |
+| GET         | https://api.jsonstorage.net/v1/json/650cd385-824a-4ff2-acd8-66c9d52f56ad/66d126e1-c4d5-49b8-9b19-f8fd10584074 (la creada con el método POST) | Lee la información guardada en el endpoint creado                                                                                                                                                    |
+| PUT         | https://api.jsonstorage.net/v1/json/650cd385-824a-4ff2-acd8-66c9d52f56ad/66d126e1-c4d5-49b8-9b19-f8fd10584074?apiKey=<YOURAPIKEY>  (la creada con el método POST) | Sobrescribe la información guardada en el endpoint creado con el JSON que se le pasa en el campo "body" de la petición HTTP                                                                                             |
 
 ## Descargar el código del proyecto
 
@@ -49,12 +51,12 @@ $ cd MOOC_html_mod7-AJAX_entrega
 
 El fichero index.html contiene el código de la aplicación. Incluye tanto el HTML de la página, como el CSS y el código JavaScript que implementa la lógica de la aplicación siguiendo el patrón MVC. La explicación del modelo y de cada vista y controlador puede encontrarse en el enunciado de la entrega del módulo 4. Para elaborar la solución de esta entrega puede reutilizar todo el código que considere conveniente de su solución de la entrega del módulo 4. Las funcionalidades a desarrollar son las mismas, sustituyendo el acceso a localStorage por la función correspondiente de comunicación con la API ( ``postAPI``, ``getAPI`` o ``updateAPI`` ). Es decir, cambia la parte correspondiente al modelo (M) de la implementación de MVC realizada en la entrega del módulo 4.
 
-Cabe mencionar que, respecto al código de la entrega del módulo 4, se ha añadido un controlador nuevo (``initContr``), que se encarga de comprobar si el usuario ha creado ya un endpoint en myjson. Si no lo ha hecho, llama a la función ``postAPI`` que se encarga de crear dicho endpoint con las películas iniciales y lo guarda en la clave "URL" de localStorage. De esa manera, la próxima vez que el usuario acceda a la página, se podrá comprobar que el endpoint ya está creado y la información de las películas será accesible a través de él.
+Cabe mencionar que, respecto al código de la entrega del módulo 4, se ha añadido un controlador nuevo (``initContr``), que se encarga de comprobar si el usuario ha creado ya un endpoint en jsonstorage.net. Si no lo ha hecho, llama a la función ``postAPI`` que se encarga de crear dicho endpoint con las películas iniciales y lo guarda en la clave "URL" de localStorage. De esa manera, la próxima vez que el usuario acceda a la página, se podrá comprobar que el endpoint ya está creado y la información de las películas será accesible a través de él.
 
 
 ## Tareas
 
-En primer lugar, para no repetir el código de lectura/escritura en myjson a lo largo de la aplicación, debe implementar este código en las funciones ``getAPI`` y ``updateAPI``. Debe completar estas funciones para que hagan lo siguiente (se recomienda hacer uso de la función ``fetch`` de JavaScript):
+En primer lugar, para no repetir el código de lectura/escritura en jsonstorage.net a lo largo de la aplicación, debe implementar este código en las funciones ``getAPI`` y ``updateAPI``. Debe completar estas funciones para que hagan lo siguiente (se recomienda hacer uso de la función ``fetch`` de JavaScript):
 
 - **getAPI**: Realiza una petición asíncrona a la URL almacenada en ``localStorage.URL`` y devuelve la información recibida.
 
