@@ -4,7 +4,7 @@
 <br/><br/><br/>
 # Módulo 7: Excepciones, Promesas, HTTP, AJAX y jQuery - Entrega: MVC Películas AJAX
 
-Versión: 14 de septiembre de 2022
+Versión: 28 de enero de 2024
 
 
 ## Objetivos
