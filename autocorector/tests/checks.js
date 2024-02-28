@@ -203,9 +203,6 @@ describe("MVC_peliculas", function () {
                 (expected === received).should.be.equal(true);
             });
 
-            console.log("TAMAÑO: ", browser.querySelectorAll(".movie .title" ).length)
-            console.log("CONTENIDO: ", browser.querySelectorAll(".movie .title" ))
-
             (browser.querySelectorAll(".movie .title" ).length).should.be.equal(Utils.movies.length + 1);
 
         }
