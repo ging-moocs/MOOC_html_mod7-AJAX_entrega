@@ -50,6 +50,7 @@ $ cd MOOC_html_mod7-AJAX_entrega
 ```
 
 El fichero index.html contiene el código de la aplicación. Incluye tanto el HTML de la página, como el CSS y el código JavaScript que implementa la lógica de la aplicación siguiendo el patrón MVC. La explicación del modelo y de cada vista y controlador puede encontrarse en el enunciado de la entrega del módulo 4. Para elaborar la solución de esta entrega puede reutilizar todo el código que considere conveniente de su solución de la entrega del módulo 4. Las funcionalidades a desarrollar son las mismas, sustituyendo el acceso a localStorage por la función correspondiente de comunicación con la API ( ``postAPI``, ``getAPI`` o ``updateAPI`` ). Es decir, cambia la parte correspondiente al modelo (M) de la implementación de MVC realizada en la entrega del módulo 4.
+IMPORTANTE, el primer paso será cambiar en el index.html en la línea 49 la URL por la de jsonstorage y posteriormente crear el resto de funciones.
 
 Cabe mencionar que, respecto al código de la entrega del módulo 4, se ha añadido un controlador nuevo (``initContr``), que se encarga de comprobar si el usuario ha creado ya un endpoint en jsonstorage.net. Si no lo ha hecho, llama a la función ``postAPI`` que se encarga de crear dicho endpoint con las películas iniciales y lo guarda en la clave "URL" de localStorage. De esa manera, la próxima vez que el usuario acceda a la página, se podrá comprobar que el endpoint ya está creado y la información de las películas será accesible a través de él.
 
